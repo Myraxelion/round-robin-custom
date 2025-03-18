@@ -36,40 +36,41 @@ function initializePlayers(numPlayers) {
 }
 
 function nextRound() {
-    let maxPlayersAllowed = numCourts * 4;
-    let playersThisRound = [];
-
-    // TODO: add check for if there are an uneven num of players for the courts (ex. 5)
+    let maxPlayersAllowed = Math.min(numCourts * 4, Math.floor(players.length / 4) * 4);
+    let splitPlayers = [[],[]];
 
     // if number of players is less than allowed, all of them can play
     // if more, only max number can play (for now, pick randomly)
     if (players.length <= maxPlayersAllowed) {
-        players.forEach(player => playersThisRound.push(player.id));
+        players.forEach(player => splitPlayers[0].push(player.id));
     } else {
-        playersThisRound = pickPlayers(maxPlayersAllowed);
+        splitPlayers = pickPlayers(maxPlayersAllowed);
     }
 
-    console.log("playersThisRound:");
-    console.log(playersThisRound);
+    console.log("splitPlayers:");
+    console.log(splitPlayers);
 
     // scramble the ids randomly
-    playersThisRound = scramblePlayerOrder(playersThisRound)
+    splitPlayers[0] = scramblePlayerOrder(splitPlayers[0])
 
     // display the results
-    displayResults(playersThisRound);
-
-    return;
+    displayResults(splitPlayers[0], splitPlayers[1]);
 }
 
 // TODO: more sophisticated way to randomize players?
 function pickPlayers(maxPlayersAllowed) {
     let playersThisRound = [];
+    let notPlayingThisRound = [];
     // TODO: this just picks the first few players. Change.
-    for (let i = 0; i < maxPlayersAllowed; i++) {
-        playersThisRound.push(players[i].id);
+    for (let i = 0; i < players.length; i++) {
+        if (i < maxPlayersAllowed) {
+            playersThisRound.push(players[i].id);
+        } else {
+            notPlayingThisRound.push(players[i].id)
+        }
     }
 
-    return playersThisRound;
+    return [playersThisRound, notPlayingThisRound];
 }
 
 // Using Fisher-Yates Shuffle
@@ -82,13 +83,12 @@ function scramblePlayerOrder(playersThisRound) {
     return playersThisRound; 
 }
 
-function displayResults(playersThisRound) {
+function displayResults(playersThisRound, notPlayingThisRound) {
     let court = 1;
 
     document.getElementById("display").innerHTML = "";
 
     for (let i = 0; i < playersThisRound.length; i += 4) {
-        console.log("i = " + i);
         document.getElementById("display").innerHTML += `
             <div id="court">
                 <h2>Court ${court}:</h2>
@@ -99,5 +99,12 @@ function displayResults(playersThisRound) {
         `;
         court++;
     }
+
+    document.getElementById("display").innerHTML += `
+        <div id="bye">
+            <h4>Byes:</h4>
+            <p>${notPlayingThisRound}</p>
+        </div>
+    `;
     document.getElementById("display").innerHTML += `<button type="button" onclick="nextRound()">Next Round!</button>`;
 }
