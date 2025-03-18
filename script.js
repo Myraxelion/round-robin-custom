@@ -15,12 +15,10 @@ function start() {
     // document.getElementById("input").style.display = "none";
 
     initializePlayers(numPlayers);
+    console.log(players);
 
     // go to next (first) round
     nextRound();
-
-    // document.getElementById("display").innerHTML = numPlayers;
-    console.log(players);
 }
 
 function isValidNum(num) {
@@ -76,12 +74,17 @@ function pickPlayers(maxPlayersAllowed) {
     return playersThisRound;
 }
 
-// TODO
+// Using Fisher-Yates Shuffle
 function scramblePlayerOrder(playersThisRound) {
+    for (let i = playersThisRound.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [playersThisRound[i], playersThisRound[j]] = [playersThisRound[j], playersThisRound[i]]; 
+      } 
+
     return playersThisRound; 
 }
 
 // TODO
 function displayResults(playersThisRound) {
-    document.getElementById("display").innerHTML = playersThisRound;
+    document.getElementById("display").innerHTML = `<p>${playersThisRound}</p>`;
 }
