@@ -11,9 +11,7 @@ function start() {
         return;
     }
 
-    // hide initial input form
-    // document.getElementById("input").style.display = "none";
-
+    document.getElementById("input").style.display = "none";
     initializePlayers(numPlayers);
     console.log(players);
 
@@ -84,7 +82,22 @@ function scramblePlayerOrder(playersThisRound) {
     return playersThisRound; 
 }
 
-// TODO
 function displayResults(playersThisRound) {
-    document.getElementById("display").innerHTML = `<p>${playersThisRound}</p>`;
+    let court = 1;
+
+    document.getElementById("display").innerHTML = "";
+
+    for (let i = 0; i < playersThisRound.length; i += 4) {
+        console.log("i = " + i);
+        document.getElementById("display").innerHTML += `
+            <div id="court">
+                <h2>Court ${court}:</h2>
+                <h3>${playersThisRound[i]} - ${playersThisRound[i+1]}</h3>
+                <p>vs</p>
+                <h3>${playersThisRound[i+2]} - ${playersThisRound[i+3]}</h3>
+            </div>
+        `;
+        court++;
+    }
+    document.getElementById("display").innerHTML += `<button type="button" onclick="nextRound()">Next Round!</button>`;
 }
