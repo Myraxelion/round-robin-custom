@@ -3,30 +3,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
-    <title>Round Robin Custom</title>
+    <title>Round Robin</title>
 </head>
 <body>
-<h1>Hello World!</h1>
-<!-- Content will go here -->
-<p>Counter:</p>
+<h1>Round Robin Custom Generator</h1>
+<p>New Counter:</p>
 <p id="counter">0</p>
 <br>
 <button type="button" onclick="addOne()">Increment</button>
 <button type="button" onclick="minusOne()">Decrement</button>
 
+<script src="script.js"></script>
 </body>
-<script>
-let count = 0;
-
-function addOne() {
-    count++;
-    document.getElementById("counter").innerHTML = count;
-}
-
-function minusOne() {
-    count--;
-    document.getElementById("counter").innerHTML = count;
-}
-
-</script>
 </html>
