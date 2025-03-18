@@ -1,11 +1,13 @@
-let count = 0;
+function calculate() {
+    let numPeople = document.querySelector("#num-people").value;
+    // document.getElementById("display").innerHTML = numPeople;
 
-function addOne() {
-    count++;
-    document.getElementById("counter").innerHTML = count;
+    // validate input
+    isValidNum(numPeople);
 }
 
-function minusOne() {
-    count--;
-    document.getElementById("counter").innerHTML = count;
+function isValidNum(numPeople) {
+    // let isValid = Number.isInteger(numPeople) && numPeople > 0 && numPeople <= 100;
+
+    if 
 }

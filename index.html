@@ -4,15 +4,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
     <title>Round Robin</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Round Robin Custom Generator</h1>
-<p>New Counter:</p>
-<p id="counter">0</p>
-<br>
-<button type="button" onclick="addOne()">Increment</button>
-<button type="button" onclick="minusOne()">Decrement</button>
-
+    <h1>Round Robin Custom Generator</h1>
+    <div id="input">
+        <p>Please input the number of people and courts.</p>
+        <div class="form-group">
+            <p>Number of people:</p>
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="" 
+                   id="num-people" />
+        </div>
+        <div id="start-button">
+            <input type="button" 
+                   value="Start!" 
+                   class="form-button"
+                   onclick="calculate()" />
+        </div>
+    </div>
+    <div id="display"></div>
 <script src="script.js"></script>
 </body>
 </html>
