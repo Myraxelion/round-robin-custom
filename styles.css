@@ -5,3 +5,8 @@
 #start-button {
     padding-top: 20px;
 }
+
+#validation {
+    color:red;
+    display: none;
+}
