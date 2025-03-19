@@ -13,8 +13,8 @@ function start() {
 
     document.getElementById("input").style.display = "none";
     document.getElementById("options").style.display = "block";
+    
     initializePlayers(numPlayers);
-
     nextRound();
 }
 
@@ -163,4 +163,34 @@ function addPlayer() {
     maxPlayerId++;
 
     document.getElementById("add-player-confirmation").innerText = `New player added! New player is number: ${maxPlayerId}`;
+}
+
+function showRemovePlayerDialog() {
+    let dialog = document.getElementById("remove-player-dialog");
+    dialog.showModal();
+    dialog.addEventListener("click", e => {
+        const dialogDimensions = dialog.getBoundingClientRect()
+        if (
+          e.clientX < dialogDimensions.left ||
+          e.clientX > dialogDimensions.right ||
+          e.clientY < dialogDimensions.top ||
+          e.clientY > dialogDimensions.bottom
+        ) {
+          closeRemovePlayerDialog();
+        }
+    });
+}
+
+function closeRemovePlayerDialog() {
+    document.getElementById("remove-player-id").value = "";
+    document.getElementById("remove-player-dialog").close();
+}
+
+// TODO
+function removePlayer() {
+    // validate
+    // remove
+    // clear dialog
+    // close dialog
+    closeRemovePlayerDialog();
 }

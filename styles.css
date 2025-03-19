@@ -18,11 +18,16 @@ h4 {
 h3 {
     color: blue;
 }
-
+/* 
 #options {
     display: none;
-}
+} */
 
 #add-player-confirmation {
     color: green;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
 }

@@ -28,8 +28,24 @@
     <div id="display"></div>
     <div id="options">
         <h5>Options:</h5>
-        <button type="button" onclick="addPlayer()">Add Player</button>
-        <p id="add-player-confirmation"></p>
+        <div>
+            <button type="button" onclick="addPlayer()">Add Player</button>
+            <p id="add-player-confirmation"></p>
+        </div>
+        <div>
+            <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
+            <dialog id="remove-player-dialog">
+                <div class="flex-container">
+                    <span>Which player to remove?</span>
+                    <input type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="remove-player-id" />
+                    <button type="button" onclick="removePlayer()">Remove</button>
+                </div>
+            </dialog>
+            <p id="remove-player-confirmation"></p>
+        </div>
     </div>
 <script src="script.js"></script>
 </body>
