@@ -1,6 +1,7 @@
 var currentRound = 0;
 var players = [];
 var numCourts = 2;
+var maxPlayerId = 0;
 
 function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
@@ -11,6 +12,7 @@ function start() {
     }
 
     document.getElementById("input").style.display = "none";
+    document.getElementById("options").style.display = "block";
     initializePlayers(numPlayers);
 
     nextRound();
@@ -30,6 +32,8 @@ function initializePlayers(numPlayers) {
             playCount: 0
         })
     }
+
+    maxPlayerId = numPlayers;
 }
 
 function nextRound() {
@@ -147,4 +151,16 @@ function displayResults(playersThisRound, notPlayingThisRound) {
         </div>
     `;
     document.getElementById("display").innerHTML += `<button type="button" onclick="nextRound()">Next Round!</button>`;
+}
+
+// added players mimic the smallest play count in existing players so they don't play every round
+function addPlayer() {
+    players.sort((a, b) => a.playCount - b.playCount);
+    players.push({
+        id: maxPlayerId+1,
+        playCount: players[0].playCount
+    });
+    maxPlayerId++;
+
+    document.getElementById("add-player-confirmation").innerText = `New player added! New player is number: ${maxPlayerId}`;
 }

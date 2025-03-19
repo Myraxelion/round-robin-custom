@@ -18,3 +18,11 @@ h4 {
 h3 {
     color: blue;
 }
+
+#options {
+    display: none;
+}
+
+#add-player-confirmation {
+    color: green;
+}
