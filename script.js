@@ -5,7 +5,6 @@ var numCourts = 2;
 function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
     
-    // validate input
     let isValid = isValidNum(numPlayers);
     if (!isValid) {
         return;
@@ -14,7 +13,6 @@ function start() {
     document.getElementById("input").style.display = "none";
     initializePlayers(numPlayers);
 
-    // go to next (first) round
     nextRound();
 }
 
@@ -38,11 +36,7 @@ function nextRound() {
     let maxPlayersAllowed = Math.min(numCourts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
 
-    // console.log(players);
-
-    // if number of players is less than allowed, all of them can play
-    // if more, only max number can play (for now, pick randomly)
-    if (players.length <= maxPlayersAllowed) {
+    if (players.length == maxPlayersAllowed) {
         players.forEach(player => splitPlayers[0].push(player.id));
     } else {
         splitPlayers = pickPlayers(maxPlayersAllowed);
@@ -51,10 +45,7 @@ function nextRound() {
     console.log("splitPlayers:");
     console.log(splitPlayers);
 
-    // scramble the ids randomly
     splitPlayers[0] = scrambleOrder(splitPlayers[0])
-
-    // display the results
     displayResults(splitPlayers[0], splitPlayers[1]);
 }
 
@@ -64,19 +55,13 @@ function pickPlayers(maxPlayersAllowed) {
     let playersThisRound = [];
     let notPlayingThisRound = [];
 
-    // sort players on play count
     players.sort((a, b) => a.playCount - b.playCount);
 
     console.log("sorted players:");
     console.log(players);
     
-    // go backwards to find the players without the max num of play count
     let maxPlayCountCutoff = findMaxPlayCountCutoff();
     console.log("maxPlayCountCutoff: " + maxPlayCountCutoff);
-
-    // figure out if cutoff is more or less than max players allowed
-    // if more, just take the first players
-    // if less, scramble the rest and take the first of the ones that are left
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
         // allow anyone without max play count to have an equal chance of being picked
@@ -96,7 +81,6 @@ function pickPlayers(maxPlayersAllowed) {
         let numBlankSpots = maxPlayersAllowed - maxPlayCountCutoff;
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
         let scrambledPlayers = scrambleOrder(playersWithMaxPlayCount);
-
         pushPlayersIntoPlayingOrNot(numBlankSpots, scrambledPlayers, playersThisRound, notPlayingThisRound);
     }
 
@@ -117,7 +101,7 @@ function findMaxPlayCountCutoff() {
     let maxPlayCountCutoff = players.length - 1;
     let maxPlayCount = players[players.length-1].playCount; // assume players > 0
 
-    for (let i = players.length-1; i > 0; i--) {
+    for (let i = players.length - 1; i > 0; i--) {
         if (players[i].playCount < maxPlayCount) {
             maxPlayCountCutoff = i;
             break;
