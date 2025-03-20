@@ -39,6 +39,8 @@ function nextRound() {
     let maxPlayersAllowed = Math.min(numCourts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
 
+    clearConfirmationMessages();
+    
     if (players.length == maxPlayersAllowed) {
         players.forEach(player => splitPlayers[0].push(player.id));
     } else {
@@ -154,10 +156,11 @@ function displayResults(playersThisRound, notPlayingThisRound) {
 
 // added players mimic the smallest play count in existing players so they don't play every round
 function addPlayer() {
+    clearConfirmationMessages();
     players.sort((a, b) => a.playCount - b.playCount);
     players.push({
         id: maxPlayerId+1,
-        playCount: players[0].playCount
+        playCount: players.length === 0 ? 0 : players[0].playCount
     });
     maxPlayerId++;
 
@@ -182,24 +185,29 @@ function showRemovePlayerDialog() {
 
 function closeRemovePlayerDialog() {
     document.getElementById("remove-player-id").value = "";
+    document.getElementById("remove-player-validation").style.display = "none";
     document.getElementById("remove-player-dialog").close();
 }
 
-// TODO
 function removePlayer() {
     let playerId = Number(document.getElementById("remove-player-id").value);
 
-    // validate
+    clearConfirmationMessages();
+
     if (!isValidNum(playerId, maxPlayerId) || !(players.find(p => p.id == playerId))) {
         console.log("got to here!");
         document.getElementById("remove-player-validation").style.display = "block";
         return;
     }
-
     document.getElementById("remove-player-validation").style.display = "none";
-    // remove
+
     players = players.filter(p => p.id !== playerId);
 
     closeRemovePlayerDialog();
     document.getElementById("remove-player-confirmation").innerText = `Player removed! Removed player number: ${playerId}`;
+}
+
+function clearConfirmationMessages() {
+    document.getElementById("add-player-confirmation").innerText = "";
+    document.getElementById("remove-player-confirmation").innerText = "";
 }
