@@ -6,7 +6,7 @@
     padding-top: 20px;
 }
 
-#validation, #remove-player-validation{
+#validation, #remove-player-validation, #add-player-validation{
     color:red;
     display: none;
 }

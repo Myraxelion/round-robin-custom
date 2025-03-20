@@ -9,9 +9,12 @@ function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
     
     if (!isValidNum(numPlayers, MAX_PLAYERS)) {
-        document.getElementById("validation").style.display = isValid ? "none" : "block";
+        document.getElementById("validation").style.display = "block";
+        document.getElementById("validation").innerHTML = `Must be a valid number between 0 and ${MAX_PLAYERS}!`;
         return;
     }
+    document.getElementById("validation").style.display = "none";
+    document.getElementById("validation").innerHTML = "";
 
     document.getElementById("input").style.display = "none";
     document.getElementById("options").style.display = "block";
@@ -39,7 +42,7 @@ function nextRound() {
     let maxPlayersAllowed = Math.min(numCourts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
 
-    clearConfirmationMessages();
+    clearDisplayedMessages();
     
     if (players.length == maxPlayersAllowed) {
         players.forEach(player => splitPlayers[0].push(player.id));
@@ -156,7 +159,14 @@ function displayResults(playersThisRound, notPlayingThisRound) {
 
 // added players mimic the smallest play count in existing players so they don't play every round
 function addPlayer() {
-    clearConfirmationMessages();
+    clearDisplayedMessages();
+
+    if (players.length === MAX_PLAYERS) {
+        document.getElementById("add-player-validation").innerText = `Cannot have more than ${MAX_PLAYERS} players!`;
+        document.getElementById("add-player-validation").style.display = "block";
+        return;
+    }
+
     players.sort((a, b) => a.playCount - b.playCount);
     players.push({
         id: maxPlayerId+1,
@@ -194,7 +204,7 @@ function closeRemovePlayerDialog() {
 function removePlayer() {
     let playerId = Number(document.getElementById("remove-player-id").value);
 
-    clearConfirmationMessages();
+    clearDisplayedMessages();
 
     if (!isValidNum(playerId, maxPlayerId) || !(players.find(p => p.id == playerId))) {
         document.getElementById("remove-player-validation").style.display = "block";
@@ -208,6 +218,7 @@ function removePlayer() {
     document.getElementById("remove-player-confirmation").innerText = `Player removed! Removed player number: ${playerId}`;
 }
 
-function clearConfirmationMessages() {
+function clearDisplayedMessages() {
     document.getElementById("add-player-confirmation").innerText = "";
+    document.getElementById("add-player-validation").style.display = "none";
 }
