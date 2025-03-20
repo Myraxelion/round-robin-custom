@@ -6,7 +6,7 @@
     padding-top: 20px;
 }
 
-#validation {
+#validation, #remove-player-validation {
     color:red;
     display: none;
 }
@@ -23,7 +23,7 @@ h3 {
     display: none;
 } */
 
-#add-player-confirmation {
+#add-player-confirmation, #remove-player-confirmation {
     color: green;
 }
 

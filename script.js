@@ -3,11 +3,13 @@ var players = [];
 var numCourts = 2;
 var maxPlayerId = 0;
 
+const MAX_PLAYERS = 100;
+
 function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
     
-    let isValid = isValidNum(numPlayers);
-    if (!isValid) {
+    if (!isValidNum(numPlayers, MAX_PLAYERS)) {
+        document.getElementById("validation").style.display = isValid ? "none" : "block";
         return;
     }
 
@@ -18,11 +20,8 @@ function start() {
     nextRound();
 }
 
-function isValidNum(num) {
-    let isValid = Number.isInteger(num) && num > 0 && num < 100;
-    document.getElementById("validation").style.display = isValid ? "none" : "block";
-
-    return isValid;
+function isValidNum(num, max) {
+    return Number.isInteger(num) && num > 0 && num <= max;
 }
 
 function initializePlayers(numPlayers) {
@@ -188,9 +187,19 @@ function closeRemovePlayerDialog() {
 
 // TODO
 function removePlayer() {
+    let playerId = Number(document.getElementById("remove-player-id").value);
+
     // validate
+    if (!isValidNum(playerId, maxPlayerId) || !(players.find(p => p.id == playerId))) {
+        console.log("got to here!");
+        document.getElementById("remove-player-validation").style.display = "block";
+        return;
+    }
+
+    document.getElementById("remove-player-validation").style.display = "none";
     // remove
-    // clear dialog
-    // close dialog
+    players = players.filter(p => p.id !== playerId);
+
     closeRemovePlayerDialog();
+    document.getElementById("remove-player-confirmation").innerText = `Player removed! Removed player number: ${playerId}`;
 }
