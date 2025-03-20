@@ -35,7 +35,7 @@
         <div>
             <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
             <dialog id="remove-player-dialog">
-                <div class="flex-container">
+                <div id="remove-player-form" class="flex-container">
                     <span>Which player to remove?</span>
                     <input type="text" 
                         class="form-control" 
@@ -44,8 +44,11 @@
                     <div id="remove-player-validation">Not a valid player number!</div>
                     <button type="button" onclick="removePlayer()">Remove</button>
                 </div>
+                <div id="remove-player-message" class="flex-container">
+                    <p id="remove-player-confirmation"></p>
+                    <button type="button" onclick="closeRemovePlayerDialog()">Ok</button>
+                </div>
             </dialog>
-            <p id="remove-player-confirmation"></p>
         </div>
     </div>
 <script src="script.js"></script>

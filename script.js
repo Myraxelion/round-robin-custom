@@ -186,6 +186,8 @@ function showRemovePlayerDialog() {
 function closeRemovePlayerDialog() {
     document.getElementById("remove-player-id").value = "";
     document.getElementById("remove-player-validation").style.display = "none";
+    document.getElementById("remove-player-form").style.display = "flex";
+    document.getElementById("remove-player-message").style.display = "none";
     document.getElementById("remove-player-dialog").close();
 }
 
@@ -195,19 +197,17 @@ function removePlayer() {
     clearConfirmationMessages();
 
     if (!isValidNum(playerId, maxPlayerId) || !(players.find(p => p.id == playerId))) {
-        console.log("got to here!");
         document.getElementById("remove-player-validation").style.display = "block";
         return;
     }
     document.getElementById("remove-player-validation").style.display = "none";
 
     players = players.filter(p => p.id !== playerId);
-
-    closeRemovePlayerDialog();
+    document.getElementById("remove-player-form").style.display = "none";
+    document.getElementById("remove-player-message").style.display = "flex";
     document.getElementById("remove-player-confirmation").innerText = `Player removed! Removed player number: ${playerId}`;
 }
 
 function clearConfirmationMessages() {
     document.getElementById("add-player-confirmation").innerText = "";
-    document.getElementById("remove-player-confirmation").innerText = "";
 }

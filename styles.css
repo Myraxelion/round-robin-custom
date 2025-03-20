@@ -19,12 +19,17 @@ h3 {
     color: blue;
 }
 
-#options {
+#options, #remove-player-message {
     display: none;
 }
 
 #add-player-confirmation, #remove-player-confirmation {
     color: green;
+}
+
+#remove-player-id {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .flex-container {
