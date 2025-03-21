@@ -11,6 +11,14 @@
     display: none;
 }
 
+h2, h3 {
+    font-size: 2em;
+}
+
+h4, p, input, u, button {
+    font-size: 1.5em;
+}
+
 h4 {
     color: rgb(97, 96, 96);
 }
@@ -37,31 +45,41 @@ h3 {
     flex-direction: column;
 }
 
+#court-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#court {
+    margin: auto;
+}
+
 #bye-ids {
     overflow-wrap: break-word;
 }
 
 #options-toggle {
     color: lightseagreen;
-    margin-top: 5px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .action-button {
   background-color: #FFFFFF;
   border: 1px solid #222222;
-  border-radius: 8px;
+  border-radius: 10px;
   box-sizing: border-box;
   color: #222222;
   cursor: pointer;
   display: inline-block;
   font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
-  font-size: 16px;
+  font-size: 32px;
   font-weight: 600;
   line-height: 20px;
   margin: 0;
   outline: none;
-  padding: 13px 23px;
+  padding: 26px 46px;
   position: relative;
   text-align: center;
   text-decoration: none;

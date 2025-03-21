@@ -132,9 +132,10 @@ function displayResults(playersThisRound, notPlayingThisRound) {
     let court = 1;
 
     document.getElementById("display").innerHTML = "";
+    document.getElementById("display").innerHTML += `<div id="court-container"></div>`;
 
     for (let i = 0; i < playersThisRound.length; i += 4) {
-        document.getElementById("display").innerHTML += `
+        document.getElementById("court-container").innerHTML += `
             <div id="court">
                 <h2>Court ${court}:</h2>
                 <h3>${playersThisRound[i]} - ${playersThisRound[i+1]}</h3>

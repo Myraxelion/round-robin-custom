@@ -17,7 +17,8 @@
                    placeholder="" 
                    id="num-people" />
         </div>
-        <div id="validation"></div>
+        <p id="validation"></p>
+        <br/>
         <div id="start-button">
             <input type="button" 
                    value="Start!" 
@@ -37,12 +38,12 @@
             <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
             <dialog id="remove-player-dialog">
                 <div id="remove-player-form" class="flex-container">
-                    <span>Which player to remove?</span>
+                    <p>Which player to remove?</p>
                     <input type="text" 
                         class="form-control" 
                         placeholder="" 
                         id="remove-player-id" />
-                    <div id="remove-player-validation">Not a valid player number!</div>
+                    <p id="remove-player-validation">Not a valid player number!</p>
                     <button type="button" onclick="removePlayer()">Remove</button>
                 </div>
                 <div id="remove-player-message" class="flex-container">
