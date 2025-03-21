@@ -54,9 +54,6 @@ function nextRound() {
         splitPlayers = pickPlayers(maxPlayersAllowed);
     }
 
-    console.log("splitPlayers:");
-    console.log(splitPlayers);
-
     splitPlayers[0] = scrambleOrder(splitPlayers[0])
     displayResults(splitPlayers[0], splitPlayers[1]);
 }
@@ -69,11 +66,7 @@ function pickPlayers(maxPlayersAllowed) {
 
     players.sort((a, b) => a.playCount - b.playCount);
 
-    console.log("sorted players:");
-    console.log(players);
-    
     let maxPlayCountCutoff = findMaxPlayCountCutoff();
-    console.log("maxPlayCountCutoff: " + maxPlayCountCutoff);
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
         // allow anyone without max play count to have an equal chance of being picked
