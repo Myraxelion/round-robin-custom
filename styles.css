@@ -19,7 +19,7 @@ h3 {
     color: blue;
 }
 
-#options, #remove-player-message {
+#options, #remove-player-message, #options-toggle {
     display: none;
 }
 
@@ -35,4 +35,14 @@ h3 {
 .flex-container {
     display: flex;
     flex-direction: column;
+}
+
+#bye-ids {
+    overflow-wrap: break-word;
+}
+
+#options-toggle {
+    color: lightseagreen;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }

@@ -4,6 +4,8 @@ var numCourts = 2;
 var maxPlayerId = 0;
 
 const MAX_PLAYERS = 100;
+const SHOW_OPTIONS = "Show Options";
+const HIDE_OPTIONS = "Hide Options";
 
 function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
@@ -17,7 +19,8 @@ function start() {
     document.getElementById("validation").innerHTML = "";
 
     document.getElementById("input").style.display = "none";
-    document.getElementById("options").style.display = "block";
+    document.getElementById("options-toggle").style.display = "block";
+    document.getElementById("options-toggle").innerHTML = SHOW_OPTIONS;
     
     initializePlayers(numPlayers);
     nextRound();
@@ -43,6 +46,7 @@ function nextRound() {
     let splitPlayers = [[],[]];
 
     clearDisplayedMessages();
+    document.getElementById("options").style.display === "block" && ShowHideOptions();
     
     if (players.length == maxPlayersAllowed) {
         players.forEach(player => splitPlayers[0].push(player.id));
@@ -151,7 +155,7 @@ function displayResults(playersThisRound, notPlayingThisRound) {
     document.getElementById("display").innerHTML += `
         <div id="bye">
             <h4>Byes:</h4>
-            <p>${notPlayingThisRound}</p>
+            <p id="bye-ids">${notPlayingThisRound}</p>
         </div>
     `;
     document.getElementById("display").innerHTML += `<button type="button" onclick="nextRound()">Next Round!</button>`;
@@ -221,4 +225,13 @@ function removePlayer() {
 function clearDisplayedMessages() {
     document.getElementById("add-player-confirmation").innerText = "";
     document.getElementById("add-player-validation").style.display = "none";
+}
+
+function ShowHideOptions() {
+    let optionsToggle = document.getElementById("options-toggle");
+    let options = document.getElementById("options");
+
+    clearDisplayedMessages();
+    optionsToggle.innerHTML = optionsToggle.innerHTML === SHOW_OPTIONS ? HIDE_OPTIONS : SHOW_OPTIONS;
+    options.style.display = (!options.style.display || options.style.display === "none") ? "block" : "none";
 }
