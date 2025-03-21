@@ -158,7 +158,7 @@ function displayResults(playersThisRound, notPlayingThisRound) {
             <p id="bye-ids">${notPlayingThisRound}</p>
         </div>
     `;
-    document.getElementById("display").innerHTML += `<button type="button" onclick="nextRound()">Next Round!</button>`;
+    document.getElementById("display").innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;
 }
 
 // added players mimic the smallest play count in existing players so they don't play every round
