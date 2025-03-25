@@ -20,6 +20,8 @@ h4, p, input, u, button {
 }
 
 h4 {
+    margin-top: 0.6em;
+    margin-bottom: 0.8em;
     color: rgb(97, 96, 96);
 }
 
@@ -60,13 +62,16 @@ h3 {
 }
 
 #court {
-    h2 {
-        margin-top: 20px;
-        margin-bottom: 20px;
+    h3 {
+        margin-top: 0.6em;
+        margin-bottom: 0.6em;
     }
-    h2, p {
+    p {
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+    h2 {
+        margin-bottom: 0.6em;
     }
 }
 
