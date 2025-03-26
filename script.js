@@ -55,7 +55,9 @@ function nextRound() {
         splitPlayers = pickPlayers(maxPlayersAllowed);
     }
 
-    splitPlayers[0] = scrambleOrder(splitPlayers[0])
+    splitPlayers[0] = scrambleOrder(splitPlayers[0]); // randomize who's playing who
+    splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
+
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
 
