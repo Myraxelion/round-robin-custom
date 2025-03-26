@@ -1,7 +1,8 @@
 var currentRound = 0;
-var players = [];
 var numCourts = 2;
+var players = [];
 var maxPlayerId = 0;
+var byeIdsLastRound = [];
 var showStats = false;
 
 const MAX_PLAYERS = 100;
@@ -58,18 +59,17 @@ function nextRound() {
 
     splitPlayers[0] = scrambleOrder(splitPlayers[0]); // randomize who's playing who
     splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
+    byeIdsLastRound = splitPlayers[1];
+    console.log("byes: " + byeIdsLastRound);
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
     showStats && populatePlayerStats();
-
-    // printStatus(splitPlayers);
-    console.log("Round: " + currentRound);
-    console.log(JSON.parse(JSON.stringify(players)))
 }
 
 // deprioritizes the players with the largest play counts
 // in theory there should never be a difference of more than 1 between play counts
+// prioritizes players who were just sitting out
 function pickPlayers(maxPlayersAllowed) {
     let playersThisRound = [];
     let notPlayingThisRound = [];
@@ -80,24 +80,32 @@ function pickPlayers(maxPlayersAllowed) {
     console.log("maxPlayCountCutoff: " + maxPlayCountCutoff);
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
-        // allow anyone without max play count to have an equal chance of being picked
+        console.log("maxPlayCountCutoff >= maxPlayersAllowed");
+        // prioritize people with byes last round, rest is random
         let playersWithoutMaxPlayCount = players.slice(0, maxPlayCountCutoff);
-        let scrambledPlayers = scrambleOrder(playersWithoutMaxPlayCount);
-        pushPlayersIntoPlayingOrNot(maxPlayersAllowed, scrambledPlayers, playersThisRound, notPlayingThisRound);
+        let prioritizedPlayers = prioritizePreviousByes(playersWithoutMaxPlayCount);
+        console.log(prioritizedPlayers);
+        
+        pushPlayersIntoPlayingOrNot(maxPlayersAllowed, prioritizedPlayers, playersThisRound, notPlayingThisRound);
 
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
         pushPlayersIntoPlayingOrNot(0, playersWithMaxPlayCount, playersThisRound, notPlayingThisRound);
     } else {
-        // let everyone without max play count play and then choose randomly from the rest
+        // let everyone without max play count play, then prioritize byes, and then choose randomly from the rest
         for (let i = 0; i < maxPlayCountCutoff; i++) {
             playersThisRound.push(players[i].id);
             players[i].playCount++;
         }
 
+        console.log("maxPlayCountCutoff < maxPlayersAllowed");
+
         let numBlankSpots = maxPlayersAllowed - maxPlayCountCutoff;
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
-        let scrambledPlayers = scrambleOrder(playersWithMaxPlayCount);
-        pushPlayersIntoPlayingOrNot(numBlankSpots, scrambledPlayers, playersThisRound, notPlayingThisRound);
+        let prioritizedPlayers = prioritizePreviousByes(playersWithMaxPlayCount);
+        console.log(prioritizedPlayers);
+
+        // let scrambledPlayers = scrambleOrder(playersWithMaxPlayCount);
+        pushPlayersIntoPlayingOrNot(numBlankSpots, prioritizedPlayers, playersThisRound, notPlayingThisRound);
     }
 
     return [playersThisRound, notPlayingThisRound];
@@ -125,6 +133,23 @@ function findMaxPlayCountCutoff() {
     }
     
     return maxPlayCountCutoff + 1; // make this exclusive, so add 1
+}
+
+// randomizes array and then prioritizes ids in byes last round
+function prioritizePreviousByes(customPlayers) {
+    let scrambledPlayers = scrambleOrder(customPlayers);
+    let byePlayers = [];
+    let otherPlayers = [];
+
+    scrambledPlayers.forEach(player => {
+        if (byeIdsLastRound.includes(player.id)) {
+            byePlayers.push(player);
+        } else {
+            otherPlayers.push(player);
+        }
+    });
+
+    return byePlayers.concat(otherPlayers);
 }
 
 function pushPlayersIntoPlayingOrNot(cutoff, customPlayers, playing, notPlaying) {
