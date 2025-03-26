@@ -164,7 +164,7 @@ function displayResults(playersThisRound, notPlayingThisRound) {
     document.getElementById("display-results").innerHTML += `
         <div id="bye">
             <h4>Byes:</h4>
-            <p id="bye-ids">${notPlayingThisRound}</p>
+            <p id="bye-ids">${notPlayingThisRound.join(", ")}</p>
         </div>
     `;
     document.getElementById("display-results").innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;

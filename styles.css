@@ -21,7 +21,7 @@ h4, p, input, u, button {
 
 h4 {
     margin-top: 0.6em;
-    margin-bottom: 0.8em;
+    margin-bottom: 0.3em;
     color: rgb(96, 96, 96);
 }
 
@@ -49,7 +49,7 @@ h4 {
 
 #display-round {
     color: rgb(96, 96, 96);
-    margin-top: 0.5em;
+    margin-top: 0;
     margin-bottom: 0.2em;
 }
 
@@ -85,6 +85,7 @@ h4 {
 
 #bye-ids {
     overflow-wrap: break-word;
+    margin-top: 0;
 }
 
 #options-toggle-container {
