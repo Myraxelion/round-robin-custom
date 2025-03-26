@@ -2,6 +2,7 @@ var currentRound = 0;
 var players = [];
 var numCourts = 2;
 var maxPlayerId = 0;
+var showStats = false;
 
 const MAX_PLAYERS = 100;
 const SHOW_OPTIONS = "Show Options";
@@ -60,7 +61,7 @@ function nextRound() {
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
-    populatePlayerStats();
+    showStats && populatePlayerStats();
 
     // printStatus(splitPlayers);
     console.log("Round: " + currentRound);
@@ -265,4 +266,14 @@ function ShowHideOptions() {
     clearDisplayedMessages();
     optionsToggle.innerHTML = optionsToggle.innerHTML === SHOW_OPTIONS ? HIDE_OPTIONS : SHOW_OPTIONS;
     options.style.display = (!options.style.display || options.style.display === "none") ? "block" : "none";
+}
+
+function togglePlayerStats(){
+    let stats = document.getElementById("player-stats").style;
+    stats.display = (!stats.display || stats.display === "none") ? "block" : "none";
+    showStats = !showStats;
+    
+    if (showStats) {
+        populatePlayerStats();
+    }
 }
