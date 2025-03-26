@@ -99,7 +99,7 @@ h4 {
 
 .table-container {
     overflow:auto;
-    height: 300px;
+    max-height: 450px;
 }
 
 .table-container, th, td {
