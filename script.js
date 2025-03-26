@@ -52,7 +52,7 @@ function nextRound() {
     document.getElementById("options").style.display === "block" && ShowHideOptions();
     
     if (players.length == maxPlayersAllowed) {
-        players.forEach(player => splitPlayers[0].push(player.id));
+        pushPlayersIntoPlayingOrNot(maxPlayersAllowed, players, splitPlayers[0], splitPlayers[1]);
     } else {
         splitPlayers = pickPlayers(maxPlayersAllowed);
     }
@@ -60,7 +60,6 @@ function nextRound() {
     splitPlayers[0] = scrambleOrder(splitPlayers[0]); // randomize who's playing who
     splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
     byeIdsLastRound = splitPlayers[1];
-    console.log("byes: " + byeIdsLastRound);
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
@@ -77,14 +76,11 @@ function pickPlayers(maxPlayersAllowed) {
     players.sort((a, b) => a.playCount - b.playCount);
 
     let maxPlayCountCutoff = findMaxPlayCountCutoff();
-    console.log("maxPlayCountCutoff: " + maxPlayCountCutoff);
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
-        console.log("maxPlayCountCutoff >= maxPlayersAllowed");
         // prioritize people with byes last round, rest is random
         let playersWithoutMaxPlayCount = players.slice(0, maxPlayCountCutoff);
         let prioritizedPlayers = prioritizePreviousByes(playersWithoutMaxPlayCount);
-        console.log(prioritizedPlayers);
         
         pushPlayersIntoPlayingOrNot(maxPlayersAllowed, prioritizedPlayers, playersThisRound, notPlayingThisRound);
 
@@ -97,14 +93,10 @@ function pickPlayers(maxPlayersAllowed) {
             players[i].playCount++;
         }
 
-        console.log("maxPlayCountCutoff < maxPlayersAllowed");
-
         let numBlankSpots = maxPlayersAllowed - maxPlayCountCutoff;
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
         let prioritizedPlayers = prioritizePreviousByes(playersWithMaxPlayCount);
-        console.log(prioritizedPlayers);
 
-        // let scrambledPlayers = scrambleOrder(playersWithMaxPlayCount);
         pushPlayersIntoPlayingOrNot(numBlankSpots, prioritizedPlayers, playersThisRound, notPlayingThisRound);
     }
 
@@ -218,7 +210,7 @@ function populatePlayerStats() {
         `);
 }
 
-// added players mimic the smallest play count in existing players so they don't play every round
+// added players mimic the smallest in existing players so they don't play every round
 function addPlayer() {
     clearDisplayedMessages();
 
@@ -228,12 +220,15 @@ function addPlayer() {
         return;
     }
 
+    maxPlayerId++;
+    let hasPlayers = players.length === 0;
     players.sort((a, b) => a.playCount - b.playCount);
     players.push({
-        id: maxPlayerId+1,
-        playCount: players.length === 0 ? 0 : players[0].playCount
+        id: maxPlayerId,
+        playCount: hasPlayers ? 0 : players[0].playCount,
+        byeCount: hasPlayers ? 0 : players[0].byeCount
     });
-    maxPlayerId++;
+    byeIdsLastRound.push(maxPlayerId); // prioritize new players
 
     document.getElementById("add-player-confirmation").innerText = `New player added! New player is number: ${maxPlayerId}`;
 }
