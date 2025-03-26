@@ -26,31 +26,34 @@
                    onclick="start()" />
         </div>
     </div>
-    <div id="display"></div>
-    <u id="options-toggle" onclick="ShowHideOptions()"></u>
-    <div id="options">
-        <div>
-            <button type="button" onclick="addPlayer()">Add Player</button>
-            <p id="add-player-validation"></p>
-            <p id="add-player-confirmation"></p>
-        </div>
-        <div>
-            <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
-            <dialog id="remove-player-dialog">
-                <div id="remove-player-form" class="flex-container">
-                    <p>Which player to remove?</p>
-                    <input type="text" 
-                        class="form-control" 
-                        placeholder="" 
-                        id="remove-player-id" />
-                    <p id="remove-player-validation">Not a valid player number!</p>
-                    <button type="button" onclick="removePlayer()">Remove</button>
-                </div>
-                <div id="remove-player-message" class="flex-container">
-                    <p id="remove-player-confirmation"></p>
-                    <button type="button" onclick="closeRemovePlayerDialog()">Ok</button>
-                </div>
-            </dialog>
+    <div id="display">
+        <h3 id ="display-round"></h3>
+        <div id="display-results"></div>
+        <u id="options-toggle" onclick="ShowHideOptions()"></u>
+        <div id="options">
+            <div>
+                <button type="button" onclick="addPlayer()">Add Player</button>
+                <p id="add-player-validation"></p>
+                <p id="add-player-confirmation"></p>
+            </div>
+            <div>
+                <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
+                <dialog id="remove-player-dialog">
+                    <div id="remove-player-form" class="flex-container">
+                        <p>Which player to remove?</p>
+                        <input type="text" 
+                            class="form-control" 
+                            placeholder="" 
+                            id="remove-player-id" />
+                        <p id="remove-player-validation">Not a valid player number!</p>
+                        <button type="button" onclick="removePlayer()">Remove</button>
+                    </div>
+                    <div id="remove-player-message" class="flex-container">
+                        <p id="remove-player-confirmation"></p>
+                        <button type="button" onclick="closeRemovePlayerDialog()">Ok</button>
+                    </div>
+                </dialog>
+            </div>
         </div>
     </div>
 <script src="script.js"></script>

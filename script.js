@@ -19,7 +19,7 @@ function start() {
     document.getElementById("validation").innerHTML = "";
 
     document.getElementById("input").style.display = "none";
-    document.getElementById("options-toggle").style.display = "block";
+    document.getElementById("display").style.display = "block";
     document.getElementById("options-toggle").innerHTML = SHOW_OPTIONS;
     
     initializePlayers(numPlayers);
@@ -56,8 +56,8 @@ function nextRound() {
     }
 
     splitPlayers[0] = scrambleOrder(splitPlayers[0])
+    displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
-    currentRound++;
 
     // printStatus(splitPlayers);
     console.log("Round: " + currentRound);
@@ -136,11 +136,16 @@ function pushPlayersIntoPlayingOrNot(cutoff, customPlayers, playing, notPlaying)
     }
 }
 
+function displayRound() {
+    currentRound++;
+    document.getElementById("display-round").innerHTML = `Round ${currentRound}`;
+}
+
 function displayResults(playersThisRound, notPlayingThisRound) {
     let court = 1;
 
-    document.getElementById("display").innerHTML = "";
-    document.getElementById("display").innerHTML += `<div id="court-container"></div>`;
+    document.getElementById("display-results").innerHTML = "";
+    document.getElementById("display-results").innerHTML += `<div id="court-container"></div>`;
 
     for (let i = 0; i < playersThisRound.length; i += 4) {
         document.getElementById("court-container").innerHTML += `
@@ -154,13 +159,13 @@ function displayResults(playersThisRound, notPlayingThisRound) {
         court++;
     }
 
-    document.getElementById("display").innerHTML += `
+    document.getElementById("display-results").innerHTML += `
         <div id="bye">
             <h4>Byes:</h4>
             <p id="bye-ids">${notPlayingThisRound}</p>
         </div>
     `;
-    document.getElementById("display").innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;
+    document.getElementById("display-results").innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;
 }
 
 // added players mimic the smallest play count in existing players so they don't play every round
