@@ -34,7 +34,8 @@ function initializePlayers(numPlayers) {
     for (let i = 0; i < numPlayers; i++) {
         players.push({
             id: i+1,
-            playCount: 0
+            playCount: 0,
+            byeCount: 0
         })
     }
 
@@ -56,6 +57,11 @@ function nextRound() {
 
     splitPlayers[0] = scrambleOrder(splitPlayers[0])
     displayResults(splitPlayers[0], splitPlayers[1]);
+    currentRound++;
+
+    // printStatus(splitPlayers);
+    console.log("Round: " + currentRound);
+    console.log(JSON.parse(JSON.stringify(players)))
 }
 
 // deprioritizes the players with the largest play counts
@@ -67,6 +73,7 @@ function pickPlayers(maxPlayersAllowed) {
     players.sort((a, b) => a.playCount - b.playCount);
 
     let maxPlayCountCutoff = findMaxPlayCountCutoff();
+    console.log("maxPlayCountCutoff: " + maxPlayCountCutoff);
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
         // allow anyone without max play count to have an equal chance of being picked
@@ -75,7 +82,7 @@ function pickPlayers(maxPlayersAllowed) {
         pushPlayersIntoPlayingOrNot(maxPlayersAllowed, scrambledPlayers, playersThisRound, notPlayingThisRound);
 
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
-        playersWithMaxPlayCount.forEach(p => notPlayingThisRound.push(p.id));
+        pushPlayersIntoPlayingOrNot(0, playersWithMaxPlayCount, playersThisRound, notPlayingThisRound);
     } else {
         // let everyone without max play count play and then choose randomly from the rest
         for (let i = 0; i < maxPlayCountCutoff; i++) {
@@ -106,7 +113,7 @@ function findMaxPlayCountCutoff() {
     let maxPlayCountCutoff = players.length - 1;
     let maxPlayCount = players[players.length-1].playCount; // assume players > 0
 
-    for (let i = players.length - 1; i > 0; i--) {
+    for (let i = players.length - 1; i >= 0; i--) {
         if (players[i].playCount < maxPlayCount) {
             maxPlayCountCutoff = i;
             break;
@@ -118,12 +125,13 @@ function findMaxPlayCountCutoff() {
 
 function pushPlayersIntoPlayingOrNot(cutoff, customPlayers, playing, notPlaying) {
     for (let i = 0; i < customPlayers.length; i++) {
+        let player = players.find(p => p.id === customPlayers[i].id);
         if (i < cutoff) {
             playing.push(customPlayers[i].id);
-            let player = players.find(p => p.id === customPlayers[i].id);
             player.playCount++;
         } else {
-            notPlaying.push(customPlayers[i].id)
+            notPlaying.push(customPlayers[i].id);
+            player.byeCount++;
         }
     }
 }
