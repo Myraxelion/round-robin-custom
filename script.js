@@ -269,11 +269,9 @@ function ShowHideOptions() {
 }
 
 function togglePlayerStats(){
-    let stats = document.getElementById("player-stats").style;
+    let stats = document.getElementsByClassName("table-container")[0].style;
     stats.display = (!stats.display || stats.display === "none") ? "block" : "none";
     showStats = !showStats;
     
-    if (showStats) {
-        populatePlayerStats();
-    }
+    showStats && populatePlayerStats();
 }
