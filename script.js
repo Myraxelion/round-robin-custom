@@ -60,6 +60,7 @@ function nextRound() {
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
+    populatePlayerStats();
 
     // printStatus(splitPlayers);
     console.log("Round: " + currentRound);
@@ -145,9 +146,10 @@ function displayRound() {
 
 function displayResults(playersThisRound, notPlayingThisRound) {
     let court = 1;
+    let resultsDisplay = document.getElementById("display-results");
 
-    document.getElementById("display-results").innerHTML = "";
-    document.getElementById("display-results").innerHTML += `<div id="court-container"></div>`;
+    resultsDisplay.innerHTML = "";
+    resultsDisplay.innerHTML += `<div id="court-container"></div>`;
 
     for (let i = 0; i < playersThisRound.length; i += 4) {
         document.getElementById("court-container").innerHTML += `
@@ -161,13 +163,33 @@ function displayResults(playersThisRound, notPlayingThisRound) {
         court++;
     }
 
-    document.getElementById("display-results").innerHTML += `
+    resultsDisplay.innerHTML += `
         <div id="bye">
             <h4>Byes:</h4>
             <p id="bye-ids">${notPlayingThisRound.join(", ")}</p>
         </div>
     `;
-    document.getElementById("display-results").innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;
+    resultsDisplay.innerHTML += `<button type="button" class="action-button" onclick="nextRound()">Next Round!</button>`;
+}
+
+function populatePlayerStats() {
+    let statsTable = document.getElementById("player-stats");
+    statsTable.innerHTML = `
+        <tr>
+            <th>Player Id</th>
+            <th>Play Count</th>
+            <th>Bye Count</th>
+        </tr>
+    `;
+
+    players.sort((a, b) => a.id - b.id);
+    players.forEach(player => statsTable.innerHTML += `
+        <tr>
+            <td>${player.id}</td>
+            <td>${player.playCount}</td>
+            <td>${player.byeCount}</td>
+        </tr>
+        `);
 }
 
 // added players mimic the smallest play count in existing players so they don't play every round
