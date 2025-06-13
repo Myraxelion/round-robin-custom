@@ -17,7 +17,15 @@
                    placeholder="" 
                    id="num-people" />
         </div>
-        <p id="validation"></p>
+        <p id="people-validation" class="validation"></p>
+        <div class="form-group">
+            <p>Number of courts:</p>
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="" 
+                   id="num-courts" />
+        </div>
+        <p id="court-validation" class="validation"></p>
         <br/>
         <div id="start-button">
             <input type="button" 
@@ -38,7 +46,7 @@
         <div id="options">
             <div>
                 <button type="button" onclick="addPlayer()">Add Player</button>
-                <p id="add-player-validation"></p>
+                <p id="add-player-validation" class="validation"></p>
                 <p id="add-player-confirmation"></p>
             </div>
             <div>
@@ -50,7 +58,7 @@
                             class="form-control" 
                             placeholder="" 
                             id="remove-player-id" />
-                        <p id="remove-player-validation">Not a valid player number!</p>
+                        <p id="remove-player-validation" class="validation">Not a valid player number!</p>
                         <button type="button" onclick="removePlayer()">Remove</button>
                     </div>
                     <div id="remove-player-message" class="flex-container">

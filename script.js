@@ -1,31 +1,49 @@
+const MAX_PLAYERS = 100;
+const MAX_COURTS = 20;
+const COURT_DEFAULT = 2;
+const SHOW_OPTIONS = "Show Options";
+const HIDE_OPTIONS = "Hide Options";
+
 var currentRound = 0;
-var numCourts = 2;
+var courts = COURT_DEFAULT;
 var players = [];
 var maxPlayerId = 0;
 var byeIdsLastRound = [];
 var showStats = false;
 
-const MAX_PLAYERS = 100;
-const SHOW_OPTIONS = "Show Options";
-const HIDE_OPTIONS = "Hide Options";
-
 function start() {
     let numPlayers = Number(document.getElementById("num-people").value);
+    let numCourtInput = document.getElementById("num-courts").value;
+    let numCourts = Number(numCourtInput);
+    let isNumPlayersValid = isValidNum(numPlayers, MAX_PLAYERS);
+    let isNumCourtsValid = numCourts === "" || isValidNum(numCourts, MAX_COURTS);
     
-    if (!isValidNum(numPlayers, MAX_PLAYERS)) {
-        document.getElementById("validation").style.display = "block";
-        document.getElementById("validation").innerHTML = `Must be a valid number between 0 and ${MAX_PLAYERS}!`;
+    if (!isNumPlayersValid || !isNumCourtsValid) {
+        setInputValidation(isNumPlayersValid, document.getElementById("people-validation"), MAX_PLAYERS);
+        setInputValidation(isNumCourtsValid, document.getElementById("court-validation"), MAX_COURTS);
         return;
+    } else {
+        document.getElementById("people-validation").style.display = "none";
+        document.getElementById("court-validation").style.display = "none";
     }
-    document.getElementById("validation").style.display = "none";
-    document.getElementById("validation").innerHTML = "";
-
+   
     document.getElementById("input").style.display = "none";
     document.getElementById("display").style.display = "block";
     document.getElementById("options-toggle").innerHTML = SHOW_OPTIONS;
     
+    courts = numCourtInput === "" ? COURT_DEFAULT : numCourts;
+    console.log("number of courts: " + courts);
     initializePlayers(numPlayers);
     nextRound();
+}
+
+function setInputValidation(isValid, element, max) {
+    if (isValid) {
+        element.style.display = "none"
+    } else {
+        element.style.display = "block";
+        element.innerHTML = `Must be a valid number between 0 and ${max}!`;
+    }
 }
 
 function isValidNum(num, max) {
@@ -45,7 +63,7 @@ function initializePlayers(numPlayers) {
 }
 
 function nextRound() {
-    let maxPlayersAllowed = Math.min(numCourts * 4, Math.floor(players.length / 4) * 4);
+    let maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
 
     clearDisplayedMessages();
