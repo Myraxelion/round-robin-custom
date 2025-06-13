@@ -180,7 +180,7 @@ function displayRound() {
 }
 
 function displayResults(playersThisRound, notPlayingThisRound) {
-    let court = 1;
+    let currentCourt = 1;
     let resultsDisplay = document.getElementById("display-results");
 
     resultsDisplay.innerHTML = "";
@@ -189,13 +189,13 @@ function displayResults(playersThisRound, notPlayingThisRound) {
     for (let i = 0; i < playersThisRound.length; i += 4) {
         document.getElementById("court-container").innerHTML += `
             <div id="court">
-                <h2>Court ${court}:</h2>
+                <h2>Court ${currentCourt}:</h2>
                 <h3>${playersThisRound[i]} - ${playersThisRound[i+1]}</h3>
                 <p>vs</p>
                 <h3>${playersThisRound[i+2]} - ${playersThisRound[i+3]}</h3>
             </div>
         `;
-        court++;
+        currentCourt++;
     }
 
     resultsDisplay.innerHTML += `
