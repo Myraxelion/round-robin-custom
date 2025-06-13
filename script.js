@@ -16,7 +16,7 @@ function start() {
     let numCourtInput = document.getElementById("num-courts").value;
     let numCourts = Number(numCourtInput);
     let isNumPlayersValid = isValidNum(numPlayers, MAX_PLAYERS);
-    let isNumCourtsValid = numCourts === "" || isValidNum(numCourts, MAX_COURTS);
+    let isNumCourtsValid = numCourtInput === "" || isValidNum(numCourts, MAX_COURTS);
     
     if (!isNumPlayersValid || !isNumCourtsValid) {
         setInputValidation(isNumPlayersValid, document.getElementById("people-validation"), MAX_PLAYERS);
@@ -32,7 +32,6 @@ function start() {
     document.getElementById("options-toggle").innerHTML = SHOW_OPTIONS;
     
     courts = numCourtInput === "" ? COURT_DEFAULT : numCourts;
-    console.log("number of courts: " + courts);
     initializePlayers(numPlayers);
     nextRound();
 }
