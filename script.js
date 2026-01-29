@@ -62,6 +62,22 @@ function initializePlayers(numPlayers) {
     maxPlayerId = numPlayers;
 }
 
+function showPreviousRound() {
+    if (currentRound === 1) {
+        return;
+    }
+    
+    console.log('showPreviousRound'); // TODO: implement
+}
+
+function showNextRound() {
+    if (currentRound === roundHistory.length) {
+        return;
+    }
+
+    console.log('showNextRound'); // TODO: implement
+}
+
 function nextRound() {
     const maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];

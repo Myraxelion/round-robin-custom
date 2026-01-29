@@ -35,7 +35,11 @@
         </div>
     </div>
     <div id="display">
-        <h3 id="display-round"></h3>
+        <div class="direction-button-container">
+            <button type="button" class="direction-button" onclick="showPreviousRound()">&larr;</button>
+            <h3 id="display-round"></h3>
+            <button type="button" class="direction-button" onclick="showNextRound()">&rarr;</button>
+        </div>
         <div class="table-container">
             <table id="player-stats"></table>
         </div>

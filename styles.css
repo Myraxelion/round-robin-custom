@@ -115,6 +115,36 @@ td {
     margin-top: 20px;
 }
 
+.direction-button-container {
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.direction-button {
+  background-color: rgb(220, 220, 220);
+  border: 1px solid #222222;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 20px;
+  outline: none;
+  padding: 0px 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+}
+
 /* Action button */
 .action-button {
   background-color: rgb(196, 253, 196);
