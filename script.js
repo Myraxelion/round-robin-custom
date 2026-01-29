@@ -10,13 +10,14 @@ var players = [];
 var maxPlayerId = 0;
 var byeIdsLastRound = [];
 var showStats = false;
+var roundHistory = [];
 
 function start() {
-    let numPlayers = Number(document.getElementById("num-people").value);
-    let numCourtInput = document.getElementById("num-courts").value;
-    let numCourts = Number(numCourtInput);
-    let isNumPlayersValid = isValidNum(numPlayers, MAX_PLAYERS);
-    let isNumCourtsValid = numCourtInput === "" || isValidNum(numCourts, MAX_COURTS);
+    const numPlayers = Number(document.getElementById("num-people").value);
+    const numCourtInput = document.getElementById("num-courts").value;
+    const numCourts = Number(numCourtInput);
+    const isNumPlayersValid = isValidNum(numPlayers, MAX_PLAYERS);
+    const isNumCourtsValid = numCourtInput === "" || isValidNum(numCourts, MAX_COURTS);
     
     if (!isNumPlayersValid || !isNumCourtsValid) {
         setInputValidation(isNumPlayersValid, document.getElementById("people-validation"), MAX_PLAYERS);
@@ -62,13 +63,13 @@ function initializePlayers(numPlayers) {
 }
 
 function nextRound() {
-    let maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
+    const maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
 
     clearDisplayedMessages();
     document.getElementById("options").style.display === "block" && ShowHideOptions();
     
-    if (players.length == maxPlayersAllowed) {
+    if (players.length === maxPlayersAllowed) {
         pushPlayersIntoPlayingOrNot(maxPlayersAllowed, players, splitPlayers[0], splitPlayers[1]);
     } else {
         splitPlayers = pickPlayers(maxPlayersAllowed);
@@ -76,37 +77,49 @@ function nextRound() {
 
     splitPlayers[0] = scrambleOrder(splitPlayers[0]); // randomize who's playing who
     splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
+
+    roundHistory.push({
+        round: currentRound + 1,
+        players: players.slice(),
+        maxPlayerId: maxPlayerId,
+        playingIds: splitPlayers[0],
+        byeIds: splitPlayers[1],
+        byeIdsLastRound: byeIdsLastRound.slice()
+    });
+
     byeIdsLastRound = splitPlayers[1];
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
     showStats && populatePlayerStats();
+
+    console.log(roundHistory);
 }
 
 // deprioritizes the players with the largest play counts
 // in theory there should never be a difference of more than 1 between play counts
 // prioritizes players who were just sitting out
 function pickPlayers(maxPlayersAllowed) {
-    let playersThisRound = [];
+    let playingThisRound = [];
     let notPlayingThisRound = [];
 
     players.sort((a, b) => a.playCount - b.playCount);
 
-    let maxPlayCountCutoff = findMaxPlayCountCutoff();
+    const maxPlayCountCutoff = findMaxPlayCountCutoff();
 
     if (maxPlayCountCutoff >= maxPlayersAllowed) {
         // prioritize people with byes last round, rest is random
         let playersWithoutMaxPlayCount = players.slice(0, maxPlayCountCutoff);
         let prioritizedPlayers = prioritizePreviousByes(playersWithoutMaxPlayCount);
         
-        pushPlayersIntoPlayingOrNot(maxPlayersAllowed, prioritizedPlayers, playersThisRound, notPlayingThisRound);
+        pushPlayersIntoPlayingOrNot(maxPlayersAllowed, prioritizedPlayers, playingThisRound, notPlayingThisRound);
 
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
-        pushPlayersIntoPlayingOrNot(0, playersWithMaxPlayCount, playersThisRound, notPlayingThisRound);
+        pushPlayersIntoPlayingOrNot(0, playersWithMaxPlayCount, playingThisRound, notPlayingThisRound);
     } else {
         // let everyone without max play count play, then prioritize byes, and then choose randomly from the rest
         for (let i = 0; i < maxPlayCountCutoff; i++) {
-            playersThisRound.push(players[i].id);
+            playingThisRound.push(players[i].id);
             players[i].playCount++;
         }
 
@@ -114,10 +127,10 @@ function pickPlayers(maxPlayersAllowed) {
         let playersWithMaxPlayCount = players.slice(maxPlayCountCutoff);
         let prioritizedPlayers = prioritizePreviousByes(playersWithMaxPlayCount);
 
-        pushPlayersIntoPlayingOrNot(numBlankSpots, prioritizedPlayers, playersThisRound, notPlayingThisRound);
+        pushPlayersIntoPlayingOrNot(numBlankSpots, prioritizedPlayers, playingThisRound, notPlayingThisRound);
     }
 
-    return [playersThisRound, notPlayingThisRound];
+    return [playingThisRound, notPlayingThisRound];
 }
 
 // Using Fisher-Yates Shuffle
@@ -132,7 +145,7 @@ function scrambleOrder(arr) {
 
 function findMaxPlayCountCutoff() {
     let maxPlayCountCutoff = players.length - 1;
-    let maxPlayCount = players[players.length-1].playCount; // assume players > 0
+    const maxPlayCount = players[players.length-1].playCount; // assume players > 0
 
     for (let i = players.length - 1; i >= 0; i--) {
         if (players[i].playCount < maxPlayCount) {
