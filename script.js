@@ -63,24 +63,48 @@ function initializePlayers(numPlayers) {
 }
 
 function showPreviousRound() {
+    console.log('showPreviousRound'); 
+
     if (currentRound === 1) {
         return;
     }
     
-    console.log('showPreviousRound'); // TODO: implement
+    const previousRound = roundHistory[currentRound - 2];
+    console.log(previousRound);
+
+    currentRound = previousRound.round;
+    players = previousRound.players.slice();
+    maxPlayerId = previousRound.maxPlayerId;
+    byeIdsLastRound = previousRound.byeIdsLastRound.slice();
+
+    displayRound();
+    displayResults(previousRound.playingIds, previousRound.byeIds);
+    showStats && populatePlayerStats();
 }
 
 function showNextRound() {
+    console.log('showNextRound');
     if (currentRound === roundHistory.length) {
         return;
     }
 
-    console.log('showNextRound'); // TODO: implement
+    const nextRound = roundHistory[currentRound];
+    console.log(nextRound);
+    
+    currentRound = nextRound.round;
+    players = nextRound.players.slice();
+    maxPlayerId = nextRound.maxPlayerId;
+    byeIdsLastRound = nextRound.byeIdsLastRound.slice();
+
+    displayRound();
+    displayResults(nextRound.playingIds, nextRound.byeIds);
+    showStats && populatePlayerStats();
 }
 
 function nextRound() {
     const maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
     let splitPlayers = [[],[]];
+    currentRound++;
 
     clearDisplayedMessages();
     document.getElementById("options").style.display === "block" && ShowHideOptions();
@@ -95,7 +119,7 @@ function nextRound() {
     splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
 
     roundHistory.push({
-        round: currentRound + 1,
+        round: currentRound,
         players: players.slice(),
         maxPlayerId: maxPlayerId,
         playingIds: splitPlayers[0],
@@ -204,7 +228,6 @@ function pushPlayersIntoPlayingOrNot(cutoff, customPlayers, playing, notPlaying)
 }
 
 function displayRound() {
-    currentRound++;
     document.getElementById("display-round").innerHTML = `Round ${currentRound}`;
 }
 
