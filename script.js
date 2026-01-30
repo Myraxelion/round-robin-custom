@@ -63,23 +63,22 @@ function initializePlayers(numPlayers) {
 }
 
 function showPreviousRound() {
-    console.log('showPreviousRound'); 
-
     if (currentRound === 1) {
         return;
     }
     
     const previousRound = roundHistory[currentRound - 2];
+    clearDisplayedMessages();
     updateCurrentRound(previousRound);
 }
 
 function showNextRound() {
-    console.log('showNextRound');
     if (currentRound === roundHistory.length) {
         return;
     }
 
     const nextRound = roundHistory[currentRound];
+    clearDisplayedMessages();
     updateCurrentRound(nextRound);
 }
 
@@ -99,7 +98,6 @@ function updateDirectionButtons() {
     let showPreviousButton = document.getElementById("show-previous-button");
     let showNextButton = document.getElementById("show-next-button");
 
-    console.log('currentRound:', currentRound);
     showPreviousButton.style.visibility = currentRound === 1 ? "hidden" : "visible";
     showNextButton.style.visibility = currentRound === roundHistory.length ? "hidden" : "visible";
 } 
@@ -140,8 +138,6 @@ function nextRound() {
     displayResults(splitPlayers[0], splitPlayers[1]);
     showStats && populatePlayerStats();
     updateDirectionButtons();
-    console.log(players);
-    console.log(roundHistory);
 }
 
 // deprioritizes the players with the largest play counts
