@@ -70,7 +70,7 @@ function showPreviousRound() {
     }
     
     const previousRound = roundHistory[currentRound - 2];
-    console.log(previousRound);
+    // console.log(previousRound);
 
     currentRound = previousRound.round;
     players = previousRound.players.slice();
@@ -89,7 +89,7 @@ function showNextRound() {
     }
 
     const nextRound = roundHistory[currentRound];
-    console.log(nextRound);
+    // console.log(nextRound);
     
     currentRound = nextRound.round;
     players = nextRound.players.slice();
@@ -118,21 +118,25 @@ function nextRound() {
     splitPlayers[0] = scrambleOrder(splitPlayers[0]); // randomize who's playing who
     splitPlayers[1] = splitPlayers[1].sort((a, b) => a - b); // sort bye ids
 
-    roundHistory.push({
+    let newHistory = roundHistory.slice(0, currentRound - 1);
+
+    newHistory.push({
         round: currentRound,
-        players: players.slice(),
+        players: structuredClone(players),
         maxPlayerId: maxPlayerId,
-        playingIds: splitPlayers[0],
-        byeIds: splitPlayers[1],
-        byeIdsLastRound: byeIdsLastRound.slice()
+        playingIds: [...splitPlayers[0]],
+        byeIds: [...splitPlayers[1]],
+        byeIdsLastRound: [...byeIdsLastRound]
     });
+
+    roundHistory = newHistory;
 
     byeIdsLastRound = splitPlayers[1];
 
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
     showStats && populatePlayerStats();
-
+    console.log(players);
     console.log(roundHistory);
 }
 
@@ -261,6 +265,7 @@ function displayResults(playersThisRound, notPlayingThisRound) {
 
 function populatePlayerStats() {
     let statsTable = document.getElementById("player-stats");
+    statsTable.innerHTML = "";
     statsTable.innerHTML = `
         <tr>
             <th>Player Id</th>
