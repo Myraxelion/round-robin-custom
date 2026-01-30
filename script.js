@@ -70,16 +70,7 @@ function showPreviousRound() {
     }
     
     const previousRound = roundHistory[currentRound - 2];
-    // console.log(previousRound);
-
-    currentRound = previousRound.round;
-    players = previousRound.players.slice();
-    maxPlayerId = previousRound.maxPlayerId;
-    byeIdsLastRound = previousRound.byeIdsLastRound.slice();
-
-    displayRound();
-    displayResults(previousRound.playingIds, previousRound.byeIds);
-    showStats && populatePlayerStats();
+    updateCurrentRound(previousRound);
 }
 
 function showNextRound() {
@@ -89,17 +80,29 @@ function showNextRound() {
     }
 
     const nextRound = roundHistory[currentRound];
-    // console.log(nextRound);
-    
-    currentRound = nextRound.round;
-    players = nextRound.players.slice();
-    maxPlayerId = nextRound.maxPlayerId;
-    byeIdsLastRound = nextRound.byeIdsLastRound.slice();
+    updateCurrentRound(nextRound);
+}
+
+function updateCurrentRound(roundData) {
+    currentRound = roundData.round;
+    players = roundData.players.slice();
+    maxPlayerId = roundData.maxPlayerId;
+    byeIdsLastRound = roundData.byeIdsLastRound.slice();
 
     displayRound();
-    displayResults(nextRound.playingIds, nextRound.byeIds);
+    displayResults(roundData.playingIds, roundData.byeIds);
     showStats && populatePlayerStats();
+    updateDirectionButtons();
 }
+
+function updateDirectionButtons() {
+    let showPreviousButton = document.getElementById("show-previous-button");
+    let showNextButton = document.getElementById("show-next-button");
+
+    console.log('currentRound:', currentRound);
+    showPreviousButton.style.visibility = currentRound === 1 ? "hidden" : "visible";
+    showNextButton.style.visibility = currentRound === roundHistory.length ? "hidden" : "visible";
+} 
 
 function nextRound() {
     const maxPlayersAllowed = Math.min(courts * 4, Math.floor(players.length / 4) * 4);
@@ -136,6 +139,7 @@ function nextRound() {
     displayRound();
     displayResults(splitPlayers[0], splitPlayers[1]);
     showStats && populatePlayerStats();
+    updateDirectionButtons();
     console.log(players);
     console.log(roundHistory);
 }
