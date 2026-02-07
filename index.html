@@ -1,85 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
     <title>Round Robin</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <h1>Custom Round Robin Generator</h1>
     <div id="input">
-        <p>Input the number of people and number of courts to get started.</p>
-        <div class="form-group">
-            <p>Number of people:</p>
-            <input type="text" 
-                   class="form-control" 
-                   placeholder="" 
-                   id="num-people" />
-        </div>
-        <p id="people-validation" class="validation"></p>
-        <div class="form-group">
-            <p>Number of courts (Leave blank for 2):</p>
-            <input type="text" 
-                   class="form-control" 
-                   placeholder="2" 
-                   id="num-courts" />
-        </div>
-        <p id="court-validation" class="validation"></p>
-        <br/>
-        <div id="start-button">
-            <input type="button" 
-                   value="Start!" 
-                   class="action-button"
-                   onclick="start()" />
-        </div>
+      <p>Input the number of people and number of courts to get started.</p>
+      <div class="form-group">
+        <p>Number of people:</p>
+        <input
+          type="text"
+          class="form-control"
+          placeholder=""
+          id="num-people"
+        />
+      </div>
+      <p id="people-validation" class="validation"></p>
+      <div class="form-group">
+        <p>Number of courts (Leave blank for 2):</p>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="2"
+          id="num-courts"
+        />
+      </div>
+      <p id="court-validation" class="validation"></p>
+      <br />
+      <div id="start-button">
+        <input
+          type="button"
+          value="Start!"
+          class="action-button"
+          onclick="start()"
+        />
+      </div>
     </div>
     <div id="display">
-        <div class="direction-button-container">
-            <button type="button" id="show-previous-button" class="direction-button" onclick="showPreviousRound()">&larr;</button>
-            <h3 id="display-round"></h3>
-            <button type="button" id="show-next-button" class="direction-button" onclick="showNextRound()">&rarr;</button>
+      <div class="direction-button-container">
+        <button
+          type="button"
+          id="show-previous-button"
+          class="direction-button"
+          onclick="showPreviousRound()"
+        >
+          &larr;
+        </button>
+        <h3 id="display-round"></h3>
+        <button
+          type="button"
+          id="show-next-button"
+          class="direction-button"
+          onclick="showNextRound()"
+        >
+          &rarr;
+        </button>
+      </div>
+      <div class="table-container">
+        <table id="player-stats"></table>
+      </div>
+      <div id="display-results"></div>
+      <div id="options-toggle-container">
+        <u id="options-toggle" onclick="ShowHideOptions()"></u>
+      </div>
+      <div id="options">
+        <div>
+          <button type="button" onclick="addPlayer()">Add Player</button>
+          <p id="add-player-validation" class="validation"></p>
+          <p id="add-player-confirmation"></p>
         </div>
-        <div class="table-container">
-            <table id="player-stats"></table>
-        </div>
-        <div id="display-results"></div>
-        <div id="options-toggle-container">
-            <u id="options-toggle" onclick="ShowHideOptions()"></u>
-        </div>
-        <div id="options">
-            <div>
-                <button type="button" onclick="addPlayer()">Add Player</button>
-                <p id="add-player-validation" class="validation"></p>
-                <p id="add-player-confirmation"></p>
+        <div>
+          <button type="button" onclick="showRemovePlayerDialog()">
+            Remove Player
+          </button>
+          <dialog id="remove-player-dialog">
+            <div id="remove-player-form" class="flex-container">
+              <p>Which player to remove?</p>
+              <input
+                type="text"
+                class="form-control"
+                placeholder=""
+                id="remove-player-id"
+              />
+              <p id="remove-player-validation" class="validation">
+                Not a valid player number!
+              </p>
+              <button type="button" onclick="removePlayer()">Remove</button>
             </div>
-            <div>
-                <button type="button" onclick="showRemovePlayerDialog()">Remove Player</button>
-                <dialog id="remove-player-dialog">
-                    <div id="remove-player-form" class="flex-container">
-                        <p>Which player to remove?</p>
-                        <input type="text" 
-                            class="form-control" 
-                            placeholder="" 
-                            id="remove-player-id" />
-                        <p id="remove-player-validation" class="validation">Not a valid player number!</p>
-                        <button type="button" onclick="removePlayer()">Remove</button>
-                    </div>
-                    <div id="remove-player-message" class="flex-container">
-                        <p id="remove-player-confirmation"></p>
-                        <button type="button" onclick="closeRemovePlayerDialog()">Ok</button>
-                    </div>
-                </dialog>
+            <div id="remove-player-message" class="flex-container">
+              <p id="remove-player-confirmation"></p>
+              <button type="button" onclick="closeRemovePlayerDialog()">
+                Ok
+              </button>
             </div>
-            <div id="stats-toggle">
-                <span>Show Player Stats (debugging)</span>
-                <label class="switch">
-                    <input type="checkbox" onclick="togglePlayerStats()">
-                    <span class="slider"></span>
-                </label>
-            </div>
+          </dialog>
         </div>
+        <div id="stats-toggle">
+          <span>Show Player Stats (debugging)</span>
+          <label class="switch">
+            <input type="checkbox" onclick="togglePlayerStats()" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
     </div>
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
